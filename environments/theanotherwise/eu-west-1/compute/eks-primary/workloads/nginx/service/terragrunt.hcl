@@ -70,6 +70,14 @@ inputs = {
         ])
         "service.beta.kubernetes.io/aws-load-balancer-type" = "nlb"
       }
+      load_balancer_source_ranges = [
+        "10.0.10.0/24",
+        "10.0.11.0/24",
+        "10.0.12.0/24",
+        "10.1.20.0/24",
+        "10.1.21.0/24",
+        "10.1.22.0/24",
+      ]
       wait_for_load_balancer = true
       port = {
         name        = "http"

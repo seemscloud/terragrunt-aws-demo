@@ -46,32 +46,55 @@ dependency "nat" {
   mock_outputs_merge_strategy_with_state  = "deep_map_only"
 }
 
-inputs = {
-  routes = {
-    "public-default-igw" = {
-      route_table_id         = dependency.route_tables.outputs.route_table_ids["public"]
-      destination_cidr_block = "0.0.0.0/0"
-      gateway_id             = dependency.vpc.outputs.internet_gateway_id
-    }
-    "private-eu-central-1a-default-nat" = {
-      route_table_id         = dependency.route_tables.outputs.route_table_ids["private-eu-central-1a"]
-      destination_cidr_block = "0.0.0.0/0"
-      nat_gateway_id         = dependency.nat.outputs.nat_gateway_ids["primary-eu-central-1a"]
-    }
-    "private-eu-central-1b-default-nat" = {
-      route_table_id         = dependency.route_tables.outputs.route_table_ids["private-eu-central-1b"]
-      destination_cidr_block = "0.0.0.0/0"
-      nat_gateway_id         = dependency.nat.outputs.nat_gateway_ids["primary-eu-central-1b"]
-    }
-    "private-eu-central-1c-default-nat" = {
-      route_table_id         = dependency.route_tables.outputs.route_table_ids["private-eu-central-1c"]
-      destination_cidr_block = "0.0.0.0/0"
-      nat_gateway_id         = dependency.nat.outputs.nat_gateway_ids["primary-eu-central-1c"]
-    }
-    "mgmt-default-igw" = {
-      route_table_id         = dependency.route_tables.outputs.route_table_ids["mgmt"]
-      destination_cidr_block = "0.0.0.0/0"
-      gateway_id             = dependency.vpc.outputs.internet_gateway_id
-    }
+dependency "vpc_peering_to_eu_west_1" {
+  config_path = "../../../../eu-west-1/network/vpc-primary/peering-from-eu-central-1"
+
+  mock_outputs = {
+    vpc_peering_connection_id = "pcx-0123456789abcdef0"
+    accept_status             = "active"
   }
+  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "destroy"]
+  mock_outputs_merge_strategy_with_state  = "deep_map_only"
+}
+
+inputs = {
+  routes = merge(
+    {
+      "public-default-igw" = {
+        route_table_id         = dependency.route_tables.outputs.route_table_ids["public"]
+        destination_cidr_block = "0.0.0.0/0"
+        gateway_id             = dependency.vpc.outputs.internet_gateway_id
+      }
+      "private-eu-central-1a-default-nat" = {
+        route_table_id         = dependency.route_tables.outputs.route_table_ids["private-eu-central-1a"]
+        destination_cidr_block = "0.0.0.0/0"
+        nat_gateway_id         = dependency.nat.outputs.nat_gateway_ids["primary-eu-central-1a"]
+      }
+      "private-eu-central-1b-default-nat" = {
+        route_table_id         = dependency.route_tables.outputs.route_table_ids["private-eu-central-1b"]
+        destination_cidr_block = "0.0.0.0/0"
+        nat_gateway_id         = dependency.nat.outputs.nat_gateway_ids["primary-eu-central-1b"]
+      }
+      "private-eu-central-1c-default-nat" = {
+        route_table_id         = dependency.route_tables.outputs.route_table_ids["private-eu-central-1c"]
+        destination_cidr_block = "0.0.0.0/0"
+        nat_gateway_id         = dependency.nat.outputs.nat_gateway_ids["primary-eu-central-1c"]
+      }
+      "mgmt-default-igw" = {
+        route_table_id         = dependency.route_tables.outputs.route_table_ids["mgmt"]
+        destination_cidr_block = "0.0.0.0/0"
+        gateway_id             = dependency.vpc.outputs.internet_gateway_id
+      }
+    },
+    {
+      for route in setproduct(
+        ["private-eu-central-1a", "private-eu-central-1b", "private-eu-central-1c"],
+        ["10.1.10.0/24", "10.1.11.0/24", "10.1.12.0/24", "10.1.20.0/24", "10.1.21.0/24", "10.1.22.0/24"]
+        ) : "${route[0]}-eu-west-1-${replace(replace(route[1], ".", "-"), "/", "-")}" => {
+        route_table_id            = dependency.route_tables.outputs.route_table_ids[route[0]]
+        destination_cidr_block    = route[1]
+        vpc_peering_connection_id = dependency.vpc_peering_to_eu_west_1.outputs.vpc_peering_connection_id
+      }
+    }
+  )
 }

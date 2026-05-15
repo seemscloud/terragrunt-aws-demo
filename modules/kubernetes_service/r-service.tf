@@ -9,8 +9,9 @@ resource "kubernetes_service_v1" "this" {
   }
 
   spec {
-    type     = each.value.type
-    selector = each.value.selector
+    type                        = each.value.type
+    selector                    = each.value.selector
+    load_balancer_source_ranges = each.value.load_balancer_source_ranges
 
     port {
       name        = each.value.port.name

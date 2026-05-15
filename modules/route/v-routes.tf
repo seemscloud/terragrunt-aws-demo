@@ -1,9 +1,9 @@
 variable "routes" {
   type = map(object({
-    route_table_id         = string
-    destination_cidr_block = string
-    gateway_id             = optional(string)
-    nat_gateway_id         = optional(string)
+    route_table_id            = string
+    destination_cidr_block    = string
+    gateway_id                = optional(string)
+    nat_gateway_id            = optional(string)
     vpc_peering_connection_id = optional(string)
   }))
 
