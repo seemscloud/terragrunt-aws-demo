@@ -7,7 +7,7 @@ terraform {
 }
 
 dependency "eu_central_1_vpc" {
-  config_path = "../../../network/vpc-primary/vpc"
+  config_path = "../../../../eu-central-1/network/vpc-primary/vpc"
 
   mock_outputs = {
     vpc_id         = "vpc-mock-eu-central-1"
