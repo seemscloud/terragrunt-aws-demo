@@ -68,10 +68,10 @@ inputs = {
       destination_cidr_block = "0.0.0.0/0"
       nat_gateway_id         = dependency.nat.outputs.nat_gateway_ids["primary-eu-west-1c"]
     }
-    "mgmt-default-nat" = {
+    "mgmt-default-igw" = {
       route_table_id         = dependency.route_tables.outputs.route_table_ids["mgmt"]
       destination_cidr_block = "0.0.0.0/0"
-      nat_gateway_id         = dependency.nat.outputs.nat_gateway_ids["primary-eu-west-1a"]
+      gateway_id             = dependency.vpc.outputs.internet_gateway_id
     }
   }
 }

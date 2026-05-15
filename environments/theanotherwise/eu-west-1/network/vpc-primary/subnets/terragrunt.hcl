@@ -25,7 +25,7 @@ inputs = {
     mgmt = {
       cidr_block              = "10.1.255.240/28"
       availability_zone       = "eu-west-1a"
-      map_public_ip_on_launch = false
+      map_public_ip_on_launch = true
       tags = {
         Tier = "mgmt"
       }
@@ -36,8 +36,9 @@ inputs = {
       map_public_ip_on_launch = true
       name                    = "primary-eu-west-1a-pub"
       tags = {
-        Tier                     = "public"
-        "kubernetes.io/role/elb" = "1"
+        Tier                                      = "public"
+        "kubernetes.io/cluster/primary-eu-west-1" = "shared"
+        "kubernetes.io/role/elb"                  = "1"
       }
     }
     "primary-eu-west-1b" = {
@@ -46,8 +47,9 @@ inputs = {
       map_public_ip_on_launch = true
       name                    = "primary-eu-west-1b-pub"
       tags = {
-        Tier                     = "public"
-        "kubernetes.io/role/elb" = "1"
+        Tier                                      = "public"
+        "kubernetes.io/cluster/primary-eu-west-1" = "shared"
+        "kubernetes.io/role/elb"                  = "1"
       }
     }
     "primary-eu-west-1c" = {
@@ -56,8 +58,9 @@ inputs = {
       map_public_ip_on_launch = true
       name                    = "primary-eu-west-1c-pub"
       tags = {
-        Tier                     = "public"
-        "kubernetes.io/role/elb" = "1"
+        Tier                                      = "public"
+        "kubernetes.io/cluster/primary-eu-west-1" = "shared"
+        "kubernetes.io/role/elb"                  = "1"
       }
     }
     "private-eu-west-1a" = {
@@ -66,8 +69,8 @@ inputs = {
       map_public_ip_on_launch = false
       name                    = "primary-eu-west-1a-prv"
       tags = {
-        Tier                              = "private"
-        "kubernetes.io/role/internal-elb" = "1"
+        Tier                                      = "private"
+        "kubernetes.io/cluster/primary-eu-west-1" = "shared"
       }
     }
     "private-eu-west-1b" = {
@@ -76,8 +79,8 @@ inputs = {
       map_public_ip_on_launch = false
       name                    = "primary-eu-west-1b-prv"
       tags = {
-        Tier                              = "private"
-        "kubernetes.io/role/internal-elb" = "1"
+        Tier                                      = "private"
+        "kubernetes.io/cluster/primary-eu-west-1" = "shared"
       }
     }
     "private-eu-west-1c" = {
@@ -86,8 +89,41 @@ inputs = {
       map_public_ip_on_launch = false
       name                    = "primary-eu-west-1c-prv"
       tags = {
-        Tier                              = "private"
-        "kubernetes.io/role/internal-elb" = "1"
+        Tier                                      = "private"
+        "kubernetes.io/cluster/primary-eu-west-1" = "shared"
+      }
+    }
+    "lb-eu-west-1a" = {
+      cidr_block              = "10.1.20.0/24"
+      availability_zone       = "eu-west-1a"
+      map_public_ip_on_launch = false
+      name                    = "primary-eu-west-1a-lb"
+      tags = {
+        Tier                                      = "lb"
+        "kubernetes.io/cluster/primary-eu-west-1" = "shared"
+        "kubernetes.io/role/internal-elb"         = "1"
+      }
+    }
+    "lb-eu-west-1b" = {
+      cidr_block              = "10.1.21.0/24"
+      availability_zone       = "eu-west-1b"
+      map_public_ip_on_launch = false
+      name                    = "primary-eu-west-1b-lb"
+      tags = {
+        Tier                                      = "lb"
+        "kubernetes.io/cluster/primary-eu-west-1" = "shared"
+        "kubernetes.io/role/internal-elb"         = "1"
+      }
+    }
+    "lb-eu-west-1c" = {
+      cidr_block              = "10.1.22.0/24"
+      availability_zone       = "eu-west-1c"
+      map_public_ip_on_launch = false
+      name                    = "primary-eu-west-1c-lb"
+      tags = {
+        Tier                                      = "lb"
+        "kubernetes.io/cluster/primary-eu-west-1" = "shared"
+        "kubernetes.io/role/internal-elb"         = "1"
       }
     }
   }

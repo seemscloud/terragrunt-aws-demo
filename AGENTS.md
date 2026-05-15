@@ -54,4 +54,10 @@ Split each module into many small files, one element per file:
 
 State is stored remotely and the path inside the bucket mirrors the directory layout under `environments/`, one state file per leaf `terragrunt.hcl`. This is configured in `root.hcl` via `path_relative_to_include()`. Do not collapse multiple environments or components into a shared state file.
 
+## Current project structure
+
+This repository is a Terragrunt/OpenTofu AWS infrastructure project. Reusable Terraform code lives in `modules/`, with one focused AWS resource type per module, while deployable state leaves live under `environments/theanotherwise/<region>/...`.
+
+The primary regional layout currently uses `network/vpc-primary/*` for VPC, subnet, NAT, route table, route, and route table association states. EKS cluster components live under `compute/eks-primary/*`, and private DNS for `aws.seems.cloud` is represented from `eu-central-1/dns/aws-seems-cloud/private-zone` with VPC associations for the regional primary VPCs.
+
 ## Imported Claude Cowork project instructions

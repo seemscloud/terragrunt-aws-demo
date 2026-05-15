@@ -71,7 +71,6 @@ inputs = {
       tags = {
         Tier                                         = "private"
         "kubernetes.io/cluster/primary-eu-central-1" = "shared"
-        "kubernetes.io/role/internal-elb"            = "1"
       }
     }
     "private-eu-central-1b" = {
@@ -82,7 +81,6 @@ inputs = {
       tags = {
         Tier                                         = "private"
         "kubernetes.io/cluster/primary-eu-central-1" = "shared"
-        "kubernetes.io/role/internal-elb"            = "1"
       }
     }
     "private-eu-central-1c" = {
@@ -92,6 +90,38 @@ inputs = {
       name                    = "primary-eu-central-1c-prv"
       tags = {
         Tier                                         = "private"
+        "kubernetes.io/cluster/primary-eu-central-1" = "shared"
+      }
+    }
+    "lb-eu-central-1a" = {
+      cidr_block              = "10.0.20.0/24"
+      availability_zone       = "eu-central-1a"
+      map_public_ip_on_launch = false
+      name                    = "primary-eu-central-1a-lb"
+      tags = {
+        Tier                                         = "lb"
+        "kubernetes.io/cluster/primary-eu-central-1" = "shared"
+        "kubernetes.io/role/internal-elb"            = "1"
+      }
+    }
+    "lb-eu-central-1b" = {
+      cidr_block              = "10.0.21.0/24"
+      availability_zone       = "eu-central-1b"
+      map_public_ip_on_launch = false
+      name                    = "primary-eu-central-1b-lb"
+      tags = {
+        Tier                                         = "lb"
+        "kubernetes.io/cluster/primary-eu-central-1" = "shared"
+        "kubernetes.io/role/internal-elb"            = "1"
+      }
+    }
+    "lb-eu-central-1c" = {
+      cidr_block              = "10.0.22.0/24"
+      availability_zone       = "eu-central-1c"
+      map_public_ip_on_launch = false
+      name                    = "primary-eu-central-1c-lb"
+      tags = {
+        Tier                                         = "lb"
         "kubernetes.io/cluster/primary-eu-central-1" = "shared"
         "kubernetes.io/role/internal-elb"            = "1"
       }

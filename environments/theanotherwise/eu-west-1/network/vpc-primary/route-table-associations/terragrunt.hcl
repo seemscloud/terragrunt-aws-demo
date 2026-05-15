@@ -18,6 +18,9 @@ dependency "subnets" {
       "private-eu-west-1a" = "subnet-mock-private-a"
       "private-eu-west-1b" = "subnet-mock-private-b"
       "private-eu-west-1c" = "subnet-mock-private-c"
+      "lb-eu-west-1a"      = "subnet-mock-lb-a"
+      "lb-eu-west-1b"      = "subnet-mock-lb-b"
+      "lb-eu-west-1c"      = "subnet-mock-lb-c"
     }
   }
   mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "destroy"]
@@ -64,6 +67,18 @@ inputs = {
     }
     "private-eu-west-1c" = {
       subnet_id      = dependency.subnets.outputs.subnet_ids["private-eu-west-1c"]
+      route_table_id = dependency.route_tables.outputs.route_table_ids["private-eu-west-1c"]
+    }
+    "lb-eu-west-1a" = {
+      subnet_id      = dependency.subnets.outputs.subnet_ids["lb-eu-west-1a"]
+      route_table_id = dependency.route_tables.outputs.route_table_ids["private-eu-west-1a"]
+    }
+    "lb-eu-west-1b" = {
+      subnet_id      = dependency.subnets.outputs.subnet_ids["lb-eu-west-1b"]
+      route_table_id = dependency.route_tables.outputs.route_table_ids["private-eu-west-1b"]
+    }
+    "lb-eu-west-1c" = {
+      subnet_id      = dependency.subnets.outputs.subnet_ids["lb-eu-west-1c"]
       route_table_id = dependency.route_tables.outputs.route_table_ids["private-eu-west-1c"]
     }
     mgmt = {
