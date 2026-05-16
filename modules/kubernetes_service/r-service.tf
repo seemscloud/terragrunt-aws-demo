@@ -11,6 +11,7 @@ resource "kubernetes_service_v1" "this" {
   spec {
     type                        = each.value.type
     selector                    = each.value.selector
+    external_traffic_policy     = each.value.external_traffic_policy
     load_balancer_source_ranges = each.value.load_balancer_source_ranges
 
     port {

@@ -5,6 +5,7 @@ variable "services" {
     selector                    = map(string)
     annotations                 = optional(map(string), {})
     labels                      = optional(map(string), {})
+    external_traffic_policy     = optional(string)
     load_balancer_source_ranges = optional(list(string))
     wait_for_load_balancer      = optional(bool, false)
     port = object({
