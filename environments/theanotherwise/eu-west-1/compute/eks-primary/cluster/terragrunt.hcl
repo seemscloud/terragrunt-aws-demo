@@ -17,6 +17,18 @@ dependency "cluster_role" {
   mock_outputs_merge_strategy_with_state  = "deep_map_only"
 }
 
+dependency "mgmt_instance" {
+  config_path = "../../mgmt/instance"
+
+  mock_outputs = {
+    public_ips = {
+      mgmt = "203.0.113.10"
+    }
+  }
+  mock_outputs_allowed_terraform_commands = ["init", "validate", "plan", "destroy"]
+  mock_outputs_merge_strategy_with_state  = "deep_map_only"
+}
+
 dependency "subnets" {
   config_path = "../../../network/vpc-primary/subnets"
 
@@ -48,6 +60,6 @@ inputs = {
     bootstrap_cluster_creator_admin_permissions = true
     endpoint_private_access                     = true
     endpoint_public_access                      = true
-    public_access_cidrs                         = [get_env("EKS_PUBLIC_ACCESS_CIDR", "0.0.0.0/0")]
+    public_access_cidrs                         = [format("%s/32", dependency.mgmt_instance.outputs.public_ips["mgmt"])]
   }
 }

@@ -60,4 +60,6 @@ This repository is a Terragrunt/OpenTofu AWS infrastructure project. Reusable Te
 
 The primary regional layout currently uses `network/vpc-primary/*` for VPC, subnet, NAT, route table, route, route table association, and inter-region VPC peering states. EKS cluster components live under `compute/eks-primary/*`, Kubernetes workloads for that cluster live under `compute/eks-primary/workloads/*`, regional management hosts live under `compute/mgmt/*`, and private DNS for EKS workloads is represented from regional `dns/eks-primary/*` states with VPC associations for both regional primary VPCs.
 
+Regional EKS public API access is intentionally restricted to the public IP of the regional `compute/mgmt/instance`, with private endpoint access enabled for VPC-local access. Inter-region VPC peering routes should stay scoped to the specific private EKS and load balancer subnets required for cluster-to-cluster service traffic, not whole VPC CIDR blocks.
+
 ## Imported Claude Cowork project instructions
